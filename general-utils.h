@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+#include <vector>
+#include <iostream>
+#include <fstream>
 
 std::string linuxExec(std::string cmd){
   std::string data;
@@ -60,4 +63,18 @@ std::string fileToStr(std::string filename, bool debug = false){
   }
   file.close();
   return str;
+}
+
+std::vector<std::string> strToLines(std::string str){
+  std::vector<std::string> lines;
+  std::string newLine = "";
+  for (int i = 0; i < str.size(); i++){
+    if (str[i] == '\n'){
+      lines.push_back(newLine);
+      newLine = "";
+      continue;
+    }
+    newLine += str[i];
+  }
+  return lines;
 }
