@@ -46,3 +46,12 @@ uncorrected-task{
   args "7-2"
   correct "5"
 }
+
+multiline {
+  correct "Multiple
+line
+stuff"
+args "even
+more
+multiples!!!"
+}

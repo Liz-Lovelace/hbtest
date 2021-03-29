@@ -1,0 +1,15 @@
+natural-simplification-3
+{
+  0key "0val"
+  1key "1val"
+}
+unnatural
+{
+  2key "2val"
+  3key "3val"
+}
+moreunnatural
+{
+  4key "4val"
+  5key "5val"
+}

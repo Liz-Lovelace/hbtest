@@ -1,12 +1,14 @@
 #include "general-utils.h"
+#include "test-utils.h"
 #include <string>
 #include <iostream>
 #include <vector>
+
 int main(){
-  std::string str = "hello\nworld\nI'm a big ol' string with big ambitions!!!\n";
-  std::vector<std::string> vec = strToLines(str);
-  for (int i = 0; i < vec.size(); i++) {
-    std::cout << i << vec[i] << std::endl;
-  }
+  std::string testStr = fileToStr("shorttests.txt");
+  testStr = formatTestStr(testStr);
+  std::vector<TestCase> testVec = parseTestStr(testStr, true);
+  for (int i = 0; i < testVec.size(); i++)
+    testVec[i].print();
   return 0;
 }

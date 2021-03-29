@@ -76,5 +76,7 @@ std::vector<std::string> strToLines(std::string str){
     }
     newLine += str[i];
   }
+  if (newLine != "")
+    lines.push_back(newLine);
   return lines;
 }
