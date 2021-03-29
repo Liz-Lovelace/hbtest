@@ -1,8 +1,8 @@
 /* USAGE
 hbtest codefile [-c] [-d] [-t "tests.txt"] [-colormode mono|bash] [-l cpp|out] 
-  -c           turn continuous debug mode on [default off]
+  //-c           turn continuous debug mode on [default off]
   -t           changes default test file [default = tests.txt]
-  -colormode   change color mode between mono (no color manipulation), bash (linux terminal color) [default = bash]
+  //-colormode   change color mode between mono (no color manipulation), bash (linux terminal color) [default = bash]
   -l           change debug language between cpp (c++ source file), out (linux executable) [default = autodetect]
   -d           debug hbtest itself
 */
