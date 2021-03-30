@@ -5,10 +5,10 @@
 #include <vector>
 
 int main(){
-  std::string testStr = fileToStr("shorttests.txt");
+  std::string testStr = fileToStr("tests.txt");
   testStr = formatTestStr(testStr);
-  std::vector<TestCase> testVec = parseTestStr(testStr, true);
-  for (int i = 0; i < testVec.size(); i++)
+  std::vector<TestCase> testVec = parseTestStr(testStr);
+  for (long unsigned int i = 0; i < testVec.size(); i++)
     testVec[i].print();
   return 0;
 }

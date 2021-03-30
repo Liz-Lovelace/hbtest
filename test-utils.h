@@ -15,6 +15,23 @@ public:
     correct = _correct;
   }
   
+  TestCase(std::string _name, std::vector<std::string> keyVec, std::vector<std::string> valVec) {
+    //unfinished!!! and test parseTestStr() more !!!!!
+    name = _name;
+    if (keyVec.size() != valVec.size())
+      std::cout << "keyVec.size is " << keyVec.size() << " but valVec.size is " << valVec.size() << std::endl;
+    for (int i = 0; i < keyVec.size(); i++) {
+      if (keyVec[i] == "args")
+        args = valVec[i];
+      else if (keyVec[i] == "stdin")
+        stdin = valVec[i];
+      else if (keyVec[i] == "correct")
+        correct = valVec[i];
+      else
+        std::cout << "Unknown test key: " << keyVec[i] << std::endl; 
+    }
+  }
+  
   std::string getName()    {return name;}
   std::string getArgs()    {return args;}
   std::string getStdin()   {return stdin;}
@@ -30,8 +47,8 @@ public:
   void print(){
   std::cout <<"test: "         << name << std::endl     
             <<"args passed: "  << args << std::endl
-            <<"stdin passed :" << stdin << std::endl
-            <<"expected: "     << correct << std::endl
+            <<"stdin passed:"  << stdin << std::endl
+            <<"correct: "      << correct << std::endl
             << std::endl;
   }
 };
@@ -96,11 +113,6 @@ std::string formatTestStr(std::string testRaw, bool debug = false){
   return testRaw;
 }
 
-TestCase vecToCase(std::string name, std::vector<std::string> keyVec, std::vector<std::string> valVec) {
-  //unfinished!!! and test parseTestStr() more !!!!!
-  return TestCase(name, keyVec[0], valVec[0]);
-}
-
 std::vector<TestCase> parseTestStr(std::string testStr, bool debug = false){
   std::vector<std::string> testLines = strToLines(testStr);
   
@@ -123,7 +135,7 @@ std::vector<TestCase> parseTestStr(std::string testStr, bool debug = false){
       if (testLines[i][0] == '}') {
         processing = "name"; 
         //std::cout << "pushing back to testvec name " << testName << std::endl;
-        testVec.push_back(vecToCase(testName, keyVec, valVec));
+        testVec.push_back(TestCase(testName, keyVec, valVec));
         keyVec.clear();
         valVec.clear();
         testName = "";
@@ -146,6 +158,5 @@ std::vector<TestCase> parseTestStr(std::string testStr, bool debug = false){
       val += testLines[i];
     }
   }
-  
   return testVec;
 }
