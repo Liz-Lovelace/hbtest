@@ -16,7 +16,6 @@ public:
   }
   
   TestCase(std::string _name, std::vector<std::string> keyVec, std::vector<std::string> valVec) {
-    //unfinished!!! and test parseTestStr() more !!!!!
     name = _name;
     if (keyVec.size() != valVec.size())
       std::cout << "keyVec.size is " << keyVec.size() << " but valVec.size is " << valVec.size() << std::endl;
@@ -47,7 +46,7 @@ public:
   void print(){
   std::cout <<"test: "         << name << std::endl     
             <<"args passed: "  << args << std::endl
-            <<"stdin passed:"  << stdin << std::endl
+            <<"stdin passed: "  << stdin << std::endl
             <<"correct: "      << correct << std::endl
             << std::endl;
   }
@@ -66,20 +65,7 @@ std::string formatTestStr(std::string testRaw, bool debug = false){
       i--;
     }
   }
-
-  // get rid of spaces
-  bool protection = false;
-  for (int i = 0; i < testRaw.size(); i++){
-    if(testRaw[i] == '"')  // so that the program doesn't mess with anything inside ";
-      protection = !protection;
-    if(!protection && testRaw[i] == ' '){
-      testRaw.erase(i, 1);
-      i--;
-    }
-  }
-  if(protection) std::cout << "Protection isn't correct in test file";
   
-  //format test
   for (int i = 1; i < testRaw.size(); i++){
     //remove all opening curly braces
     if (testRaw[i] == '{') {
@@ -97,65 +83,68 @@ std::string formatTestStr(std::string testRaw, bool debug = false){
       i+=2;
     }
   }
-  
-  // get rid of excess newlines
+
+  // get rid of spaces and newlines
+  bool protection = false;
   for (int i = 0; i < testRaw.size(); i++){
-    if(testRaw[i] == '\r'){
+    if(testRaw[i] == '"')  // so that the program doesn't mess with anything inside ";
+      protection = !protection;
+    if(!protection && testRaw[i] == ' '){
       testRaw.erase(i, 1);
       i--;
     }
-    if(checkWord("\n\n", testRaw, i)){
+    if(!protection && testRaw[i] == '\r'){
+      testRaw.erase(i, 1);
+      i--;
+    }
+    if(!protection && checkWord("\n\n", testRaw, i)){
       testRaw.erase(i, 1);
       i--;
     }
   }
+  if(protection) std::cout << "Protection isn't correct in test file";
+  
+  // get rid of beginning newline if needed
   if (testRaw[0] == '\n') testRaw.erase(0,1);
   return testRaw;
 }
 
 std::vector<TestCase> parseTestStr(std::string testStr, bool debug = false){
   std::vector<std::string> testLines = strToLines(testStr);
-  
-  // parse tests
   std::vector<TestCase> testVec;
-  
   std::string processing = "name";
   std::string val = "";
   std::vector<std::string> keyVec;
   std::vector<std::string> valVec;
   std::string testName;
-  //for (int i = 0; i < testLines.size(); i++) std::cout << testLines[i] << "\n";
   for (int i = 0; i < testLines.size(); i++){
     if (processing == "name"){
-      //std::cout << "encountered name " << testLines[i] << std::endl;
       testName = testLines[i];
       processing = "key";
-    } else if (processing == "key"){
-      //std::cout << "processing key " << testLines[i] << std::endl;
+    } else if (processing == "key"){ //{
       if (testLines[i][0] == '}') {
         processing = "name"; 
-        //std::cout << "pushing back to testvec name " << testName << std::endl;
         testVec.push_back(TestCase(testName, keyVec, valVec));
         keyVec.clear();
         valVec.clear();
         testName = "";
         continue; 
+      }else {
+        keyVec.push_back(testLines[i]);
+        processing = "value";
       }
-      //std::cout << "pushing back to keyvec : " << testLines[i] << std::endl;
-      keyVec.push_back(testLines[i]);
-      processing = "value";
     } else if (processing == "value"){
-      //skip over first quote or finish reading value
       if (testLines[i][0] == '"' && val == ""){
         continue;
       } else if(testLines[i][0] == '"' && val != ""){
-        //std::cout << "pushing back to valvec : " << val << std::endl;
         valVec.push_back(val);
         val = "";
         processing = "key";
         continue;
       }
       val += testLines[i];
+      if (testLines[i+1][0] != '"')
+        val += '\n';
     }
   }
   return testVec;

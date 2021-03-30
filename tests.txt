@@ -1,57 +1,9 @@
-//here are some tests lol
-natural-language-comprehension{
-  args "capital of great britan"
-  correct "London"
+plus{
+  stdin "1+1"
+  correct "2"
 }
 
-simple-arithmetic{
-  args "3+5"
-  stdin"inn"
-  correct "8"
-}
-
-complex-arithmetic{
-  args "9+10"
-  correct "19"
-}
-
-//series of 
-//simplification tests
-natural-simplification-1
-{
-  //the arguments should be generated
-  args "10"
-  stdin   "hey"
-  //along with the corrects
-  correct "1"
-} // so it works
-
-natural-simplification-2{
-  args "1000" //times a thousand btw
-  correct "100"}
-
-natural-simplification-3
-{
-  args "55"
-  correct "5"
-
-}
-
-natural-simplification-4{
-  args "1234"
-  correct "123"
-}
-
-uncorrected-task{
-  args "7-2"
-  correct "5"
-}
-
-multiline {
-  correct "Multiple
-line
-stuff"
-args "even
-more
-multiples!!!"
+minus{
+  stdin "1-1"
+  correct "0"
 }
