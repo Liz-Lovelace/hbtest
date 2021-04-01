@@ -4,21 +4,6 @@
 #include <iostream>
 #include <fstream>
 
-std::string linuxExec(std::string cmd){
-  std::string data;
-  FILE * stream;
-  const int max_buffer = 256;
-  char buffer[max_buffer];
-  cmd.append(" 2>&1");
-  stream = popen(cmd.c_str(), "r");
-  if (stream) {
-    while (!feof(stream))
-      if (fgets(buffer, max_buffer, stream) != NULL) data.append(buffer);
-    pclose(stream);
-  }
-  return data;
-}
-
 std::string reverse(std::string str){
   char ch;
   for (int i = 0; i <= str.size()/2; i++){
