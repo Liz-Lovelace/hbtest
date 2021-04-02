@@ -1,14 +1,8 @@
-#include "general-utils.h"
-#include "test-utils.h"
 #include <string>
 #include <iostream>
-#include <vector>
+#include "exec-utils.h"
 
 int main(){
-  std::string testStr = fileToStr("tests.txt");
-  testStr = formatTestStr(testStr);
-  std::vector<TestCase> testVec = parseTestStr(testStr);
-  for (long unsigned int i = 0; i < testVec.size(); i++)
-    testVec[i].print();
+  std::cout << linuxExec("./add.out", "6");
   return 0;
 }

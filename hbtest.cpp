@@ -16,6 +16,7 @@ hbtest codefile [-d] [-t "tests.txt"] [-colormode mono|bash] [-l cpp|out]
 #include "config-utils.h"
 #include "test-utils.h"
 #include "exec-utils.h"
+#include "output-utils.h"
 
 int main(int argn, char** argCharv){
   Config config = readConfig(parseArguments(argn, argCharv));
@@ -23,7 +24,16 @@ int main(int argn, char** argCharv){
   std::string testStr = fileToStr(config.testFile);
   testStr = formatTestStr(testStr);
   std::vector<TestCase> testVec = parseTestStr(testStr, config.debug);
-  if(compile(config.codeFile, config.language, config.codeFileName) != 0) return 1;
+  compile(config.codeFile, config.language, config.codeFileName);
+  for (long unsigned int i = 0; i < testVec.size(); i++){
+    std::string testResult = linuxExec("./add.out " + testVec[i].getArgs(), testVec[i].getStdin());
+    std::cout << testVec[i].getName() << ": ";
+    if (testVec[i].check(testResult))
+      out::testSuccess(testVec[i].getStdin(), testResult);
+    else
+      out::testFailure(testVec[i].getStdin(), testResult);
+    std::cout << std::endl;
+  }
   return 0;
 }
 //TODO: Finish line-by-line test parsing, add stdin functionality.

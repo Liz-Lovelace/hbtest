@@ -1,8 +1,15 @@
-std::string linuxExec(std::string cmd){
+#pragma once
+#include <iostream>
+#include <string>
+#include "output-utils.h"
+
+std::string linuxExec(std::string cmd, std::string stdin = ""){
   std::string data;
   FILE * stream;
   const int max_buffer = 256;
   char buffer[max_buffer];
+  if (stdin != "")
+    cmd = "echo \"" + stdin + "\" | " + cmd;
   cmd.append(" 2>&1");
   stream = popen(cmd.c_str(), "r");
   if (stream) {
@@ -13,27 +20,23 @@ std::string linuxExec(std::string cmd){
   return data;
 }
 
-std::string compileCpp(std::string inputFile, std::string outputName){
+std::string compileCpp(std::string inputFile, std::string outputFileName){
   std::string compilerFlags = "";
   compilerFlags += "-fdiagnostics-color=always ";
-  std::string compilationResult = linuxExec("g++ "+compilerFlags+inputFile+" -o "+outputName+".out"); 
+  std::string compilationResult = linuxExec("g++ "+compilerFlags+inputFile+" -o "+outputFileName+".out"); 
   return compilationResult;
 }
 
-int compile(std::string inputFile, std::string language, std::string outputName){
+int compile(std::string inputFile, std::string language, std::string outputFileName){
   if (language == "c++"){
-    std::string compilationResult = compileCpp(inputFile, outputName);
-    if(compilationResult == ""){
-      std::cout << col::color("Compilation success!", col::green, col::white) << std::endl;
-      return 0;
-    }
-    else{
-      std::cout << col::color("Compilation error!", col::black, col::red) << std::endl <<compilationResult;
-      return 1;
-    }
+    std::string compilationResult = compileCpp(inputFile, outputFileName);
+    if (compilationResult == "")
+      out::compilationSuccess();
+    else
+      out::compilationFailure(compilationResult);
+    return 0;
   }
   else{
-    std::cout << col::color("Unknown lanugage " + language + ", terminating compilation!", col::red) << std::endl;
     return 10;
   }
 }

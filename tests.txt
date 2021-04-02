@@ -1,9 +1,22 @@
-plus{
-  stdin "1+1"
-  correct "2"
+first-test{
+  stdin "3"
+  correct "4"
 }
 
-minus{
-  stdin "1-1"
+second-test{
+  stdin "1"
+  correct "2"
+}
+third-test{
+  stdin "100000000000"
+  correct "100000000001"
+}
+fourth-test{
+  stdin "32767"
+  correct "32768"
+}
+
+fifth-test{
+  stdin "-1"
   correct "0"
 }
