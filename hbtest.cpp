@@ -11,12 +11,12 @@ hbtest codefile [-d] [-t "tests.txt"] [-colormode mono|bash] [-l cpp|out]
 #include <string>
 #include <fstream>
 
-#include "hbcolor.h"
-#include "general-utils.h"
-#include "config-utils.h"
-#include "test-utils.h"
-#include "exec-utils.h"
-#include "output-utils.h"
+#include "utils/hbcolor.h"
+#include "utils/general-utils.h"
+#include "utils/config-utils.h"
+#include "utils/test-utils.h"
+#include "utils/exec-utils.h"
+#include "utils/output-utils.h"
 
 int main(int argn, char** argCharv){
   Config config = readConfig(parseArguments(argn, argCharv));
