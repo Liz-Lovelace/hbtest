@@ -20,7 +20,7 @@ std::string linuxExec(std::string cmd, std::string stdin = "", bool debug = fals
   }
   return data;
 }
-
+/*
 std::string compileCpp(std::string inputFile, std::string outputFileName){
   std::string compilerFlags = "";
   compilerFlags += "-fdiagnostics-color=always ";
@@ -41,3 +41,4 @@ int compile(std::string inputFile, std::string language, std::string outputFileN
     return 10;
   }
 }
+*/
